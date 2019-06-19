@@ -15,10 +15,15 @@ controller.addIngredients = (req, callback) => {
         db.all("INSERT INTO ingredients(name) VALUES($name)", {
             $name: req.body[i].name
         }, (err) => {
-            return callback(err)
+            if (err) {
+                return callback(err)
+            } else {
+                if (i == Object.keys(req.body).length) {
+                    callback(null)
+                }
+            }
         })
     }
-    callback(null)
 }
 
 controller.updateIngredients = (req, callback) => {
@@ -29,22 +34,38 @@ controller.updateIngredients = (req, callback) => {
         }, (err) => {
             if (err) {
                 return callback(err)
+            } else {
+                if (i == Object.keys(req.body).length) {
+                    callback(null)
+                }
             }
         })
     }
-    callback(null)
 }
 
 controller.deleteIngredients = (req, callback) => {
     for (i = 0; i < Object.keys(req.body).length; i++) {
         db.all("DELETE FROM ingredients WHERE id = $id", {
-            $id: req.query.id
+            $id: req.body.id
         }, (err) => {
             if (err) {
                 return callback(err)
+            } else {
+                if (i == Object.keys(req.body).length) {
+                    callback(null)
+                }
             }
         })
     }
-    callback(null)
+}
+
+controller.getIngredients = (req, callback) => {
+    db.all("SELECT * FROM ingredients", (err, rows) => {
+        if (err) {
+            callback(err, null)
+        } else {
+            callback(null, rows)
+        }
+    })
 }
 module.exports = controller

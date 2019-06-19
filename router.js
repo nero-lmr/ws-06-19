@@ -52,6 +52,36 @@ app.delete('/recipes', (req, res) => {
     })
 })
 
+app.post('/ingredients', (req, res) => {
+    ingredientController.addIngredients(req, (err)=> {
+        if (err) {
+            res.status(400).json(err)
+        } else {
+            res.status(201).json(req.body)
+        }
+    })
+})
+
+app.get('/ingredients', (req, res) => {
+    ingredientController.getIngredients(req, (err, rows) => {
+        if (err) {
+            res.status(400).json(err)
+        } else {
+            res.status(201).json(rows)
+        }
+    })
+})
+
+app.delete('/ingredients', (req, res) => {
+    ingredientController.deleteIngredients(req, (err) => {
+        if (err) {
+            res.status(400).json(err)
+        } else {
+            res.status(201).json({})
+        }
+    })
+})
+
 const ingredientController = require('./controller/ingredients')
 
 
