@@ -17,7 +17,34 @@ controller.addIngredients = (req, callback) => {
         }, (err) => {
             return callback(err)
         })
-    } callback(null)
+    }
+    callback(null)
 }
 
+controller.updateIngredients = (req, callback) => {
+    for (i = 0; i < Object.keys(req.body).length; i++) {
+        db.all("UPDATE ingredients SET name = $name WHERE id = $id", {
+            $name: req.body[i].name,
+            $id: req.body[i].id
+        }, (err) => {
+            if (err) {
+                return callback(err)
+            }
+        })
+    }
+    callback(null)
+}
+
+controller.deleteIngredients = (req, callback) => {
+    for (i = 0; i < Object.keys(req.body).length; i++) {
+        db.all("DELETE FROM ingredients WHERE id = $id", {
+            $id: req.query.id
+        }, (err) => {
+            if (err) {
+                return callback(err)
+            }
+        })
+    }
+    callback(null)
+}
 module.exports = controller
