@@ -46,7 +46,7 @@ controller.updateIngredients = (req, callback) => {
 controller.deleteIngredients = (req, callback) => {
     for (i = 0; i < Object.keys(req.body).length; i++) {
         db.all("DELETE FROM ingredients WHERE id = $id", {
-            $id: req.body.id
+            $id: req.body[i].id
         }, (err) => {
             if (err) {
                 return callback(err)
